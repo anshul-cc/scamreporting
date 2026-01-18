@@ -1,8 +1,21 @@
 import { Shield, Search, AlertTriangle, CheckCircle, ExternalLink } from "lucide-react";
 import prisma from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import Link from "next/link";
 
 export const dynamic = 'force-dynamic';
+
+type ReportWithAddress = Prisma.ReportGetPayload<{
+  include: {
+    address: {
+      select: {
+        address: true,
+        tags: true,
+        riskScore: true,
+      }
+    }
+  }
+}>;
 
 export default async function Home() {
   const recentReports = await prisma.report.findMany({
@@ -110,7 +123,7 @@ export default async function Home() {
               <p className="text-slate-500">No reports yet.</p>
             </div>
           ) : (
-            recentReports.map((report) => (
+            recentReports.map((report: ReportWithAddress) => (
               <div key={report.id} className="bg-[#0B0B15]/40 hover:bg-[#0B0B15]/80 backdrop-blur-sm border border-white/5 hover:border-cyan-500/30 p-5 rounded-xl transition-all group">
                 <div className="flex justify-between items-start mb-4">
                   <span className={`px-2 py-1 text-[10px] font-bold rounded uppercase tracking-wider border ${report.address.riskScore > 80 ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'

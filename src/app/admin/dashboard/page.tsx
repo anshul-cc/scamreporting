@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 import { logout, seedBlocklist } from "@/lib/server-actions";
 import { Shield, AlertTriangle, Database } from "lucide-react";
@@ -6,6 +7,10 @@ import SeedButton from "./SeedButton";
 
 // Force dynamic to see real-time data
 export const dynamic = 'force-dynamic';
+
+type ReportWithAddress = Prisma.ReportGetPayload<{
+    include: { address: true }
+}>;
 
 export default async function AdminDashboard() {
     const stats = {
@@ -104,7 +109,7 @@ export default async function AdminDashboard() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5 text-slate-300">
-                                    {recentReports.map((report, i) => (
+                                    {recentReports.map((report: ReportWithAddress, i: number) => (
                                         <tr key={report.id} className={`hover:bg-white/5 transition-colors ${i % 2 === 0 ? 'bg-white/[0.02]' : ''}`}>
                                             <td className="px-6 py-4 text-xs whitespace-nowrap text-slate-500">
                                                 {new Date(report.createdAt).toLocaleString()}
