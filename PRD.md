@@ -1,0 +1,97 @@
+# Product Requirements Document (PRD): Scam Reporting Portal
+
+> **Goal**: Build a "vibe coded", premium Scam Reporting Portal to aggregate, normalize, and manage data on malicious cryptocurrency wallet addresses (starting with Ethereum).
+
+## 1. Executive Summary
+The Scam Reporting Portal is a community-driven and automated platform designed to identify and flag malicious crypto wallets. It combines automated seeding (scraping blocklists) with user-submitted reports to create a source of truth for scam addresses.
+
+## 2. Technical Stack
+Based on the need for a modern, responsive, and easily deployable web application, we will use the following stack:
+
+*   **Frontend Framework**: **React** (via **Next.js** App Router).
+    *   *Rationale*: Best-in-class performance, server-side rendering for SEO, and seamless integration with Vercel.
+*   **Language**: **TypeScript**.
+    *   *Rationale*: Type safety for robust handling of financial data and API responses.
+*   **Styling**: **Vanilla CSS** (CSS Modules / CSS Variables).
+    *   *Rationale*: Native performance, granular control over the "premium" aesthetic, and no dependency overhead.
+    *   *Design Approach*: Mobile-first, flexbox/grid layouts, extensive use of CSS variables for theming.
+*   **Backend / API**: **Next.js API Routes** (Serverless Functions).
+    *   *Rationale*: Unified codebase, easy to scale on Vercel.
+*   **Database**: **PostgreSQL**.
+    *   *Rationale*: Relational data model suits the interconnected nature of Users, Reports, and Addresses. JSONB support allows flexibility for multi-chain metadata.
+*   **Authentication**: **Supabase Auth** (or NextAuth.js).
+    *   *Rationale*: Secure, easy to implement user management.
+*   **Infrastructure & Deployment**:
+    *   **Source Control**: **GitHub**.
+    *   **Hosting**: **Vercel** (Automatic deployments from GitHub).
+    *   **CI/CD**: GitHub Actions (linting, testing) + Vercel Pipelines.
+
+## 3. Visual Identity (Color Palette & Aesthetics)
+The design will feature a "Premium Dark" aesthetic—sleek, high-contrast, and trustworthy but modern.
+
+### Color Palette
+*   **Canvas (Background)**: `#0F172A` (Slate 900) - A deep, professional blue-grey that feels grounded and stable.
+*   **Surface (Cards/Modals)**: `rgba(30, 41, 59, 0.8)` (Slate 800) with `backdrop-filter: blur(12px)` - Provides structure without harsh edges.
+*   **Primary Accent (Confidence)**: `#3B82F6` (Royal Blue) - clear, trustworthy, and authoritative.
+*   **Secondary Accent (Calm)**: `#14B8A6` (Teal) - Soothing, used for non-critical highlights.
+*   **Danger / Scam Indicator**: `#E11D48` (Rose Red) - Alerting but not aggressively neon.
+*   **Verified / Safe**: `#10B981` (Emerald) - A calming green indicating safety.
+*   **Text Primary**: `#F8FAFC` (Slate 50)
+*   **Text Secondary**: `#94A3B8` (Slate 400)
+
+### Typography
+*   **Headings**: *Outfit* or *Inter* (Google Fonts) - Geometric, clean.
+*   **Monospace**: *JetBrains Mono* or *Fira Code* - For wallet addresses and code snippets.
+
+## 4. Database Schema
+We will use a relational schema.
+
+### `users`
+Authenticated users who can submit reports.
+- `id` (UUID, Primary Key)
+- `email` (String, Unique)
+- `username` (String, Optional)
+- `created_at` (Timestamp)
+- `reputation_score` (Integer, default 0)
+
+### `addresses`
+The core entity. Represents a blockchain wallet address.
+- `id` (UUID, Primary Key)
+- `address` (String, Unique, Indexed) - Normalized (lowercase).
+- `chain` (String) - e.g., 'ETH', 'SOL'. Default: 'ETH'.
+- `risk_score` (Integer, 0-100) - Aggregated risk level.
+- `tags` (Array<String>) - e.g., ['phishing', 'drainer', 'verified-scam'].
+- `first_seen` (Timestamp)
+- `last_reported` (Timestamp)
+
+### `reports`
+Individual reports filed by users or automated scrapers.
+- `id` (UUID, Primary Key)
+- `address_id` (UUID, Foreign Key -> addresses.id)
+- `reporter_id` (UUID, Foreign Key -> users.id, Nullable for system reports)
+- `description` (Text)
+- `evidence_url` (String, Optional) - Link to tx hash, screenshot, etc.
+- `source` (String) - 'USER_SUBMISSION', 'GITHUB_SCRAPE', 'API_IMPORT'.
+- `created_at` (Timestamp)
+
+### `blocklist_sources`
+Tracks external sources scraped (e.g., specific GitHub repos).
+- `id` (UUID)
+- `name` (String)
+- `url` (String)
+- `last_scraped_at` (Timestamp)
+
+## 5. Functional Scope (MVP)
+1.  **Public Dashboard**: Search bar for addresses, displaying recent reports and top scams.
+2.  **Authentication**: Simple Email/Password or Social Login.
+3.  **Report Submission**: Authenticated users can input an address, select a scam type, and add details.
+4.  **Automated Seeding**: A background cron job (Vercel Cron) that:
+    *   Fetches from a hardcoded list of public GitHub blocklists (e.g., MetaMask/eth-phishing-detect).
+    *   Parses and inserts new addresses into the DB.
+
+## 6. Implementation Plan - Next Steps
+1.  Initialize Next.js project.
+2.  Set up GitHub repo.
+3.  Configure global CSS variables for the color palette.
+4.  Set up Supabase (or local mock for dev) and apply schema.
+5.  Build the "Report" flow.

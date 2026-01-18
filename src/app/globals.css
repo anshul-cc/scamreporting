@@ -1,0 +1,78 @@
+:root {
+  /* Slate & Royal Blue Palette - Soothing & Confident */
+  --color-canvas: #0F172A;
+  /* Slate 900 */
+  --color-surface: rgba(30, 41, 59, 0.8);
+  /* Slate 800 */
+  --color-surface-hover: rgba(51, 65, 85, 0.9);
+  /* Slate 700 */
+
+  --color-primary: #3B82F6;
+  /* Royal Blue */
+  --color-primary-hover: #2563EB;
+
+  --color-secondary: #14B8A6;
+  /* Teal */
+
+  --color-danger: #E11D48;
+  /* Rose Red */
+  --color-success: #10B981;
+  /* Emerald */
+
+  --color-text-primary: #F8FAFC;
+  /* Slate 50 */
+  --color-text-secondary: #94A3B8;
+  /* Slate 400 */
+
+  --font-heading: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-mono), monospace;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.glass-panel {
+  background: var(--color-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Utilities for text colors since we aren't using full Tailwind classes */
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-danger {
+  color: var(--color-danger);
+}
+
+.text-success {
+  color: var(--color-success);
+}
