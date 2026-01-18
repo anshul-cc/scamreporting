@@ -109,7 +109,7 @@ export default async function AdminDashboard() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5 text-slate-300">
-                                    {recentReports.map((report: ReportWithAddress, i: number) => (
+                                    {recentReports.map((report: any, i: number) => (
                                         <tr key={report.id} className={`hover:bg-white/5 transition-colors ${i % 2 === 0 ? 'bg-white/[0.02]' : ''}`}>
                                             <td className="px-6 py-4 text-xs whitespace-nowrap text-slate-500">
                                                 {new Date(report.createdAt).toLocaleString()}
