@@ -8,10 +8,6 @@ import SeedButton from "./SeedButton";
 // Force dynamic to see real-time data
 export const dynamic = 'force-dynamic';
 
-type ReportWithAddress = Prisma.ReportGetPayload<{
-    include: { address: true }
-}>;
-
 export default async function AdminDashboard() {
     const stats = {
         totalReports: await prisma.report.count(),

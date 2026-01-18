@@ -3,19 +3,8 @@ import prisma from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import Link from "next/link";
 
-export const dynamic = 'force-dynamic';
 
-type ReportWithAddress = Prisma.ReportGetPayload<{
-  include: {
-    address: {
-      select: {
-        address: true,
-        tags: true,
-        riskScore: true,
-      }
-    }
-  }
-}>;
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const recentReports = await prisma.report.findMany({
