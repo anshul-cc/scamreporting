@@ -9,17 +9,26 @@ import SeedButton from "./SeedButton";
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
-    const stats = {
-        totalReports: await prisma.report.count(),
-        totalAddresses: await prisma.address.count(),
-        highRisk: await prisma.address.count({ where: { riskScore: { gt: 80 } } }),
-    };
+    let stats = { totalReports: 0, totalAddresses: 0, highRisk: 0 };
+    let recentReports: any[] = [];
+    let dbError = false;
 
-    const recentReports = await prisma.report.findMany({
-        take: 20,
-        orderBy: { createdAt: 'desc' },
-        include: { address: true }
-    });
+    try {
+        stats = {
+            totalReports: await prisma.report.count(),
+            totalAddresses: await prisma.address.count(),
+            highRisk: await prisma.address.count({ where: { riskScore: { gt: 80 } } }),
+        };
+
+        recentReports = await prisma.report.findMany({
+            take: 20,
+            orderBy: { createdAt: 'desc' },
+            include: { address: true }
+        });
+    } catch (e) {
+        console.error("Admin DB Error:", e);
+        dbError = true;
+    }
 
     return (
         <main className="min-h-screen bg-[#050511] text-slate-200 font-sans flex text-sm selection:bg-cyan-500/30">
@@ -69,6 +78,16 @@ export default async function AdminDashboard() {
                             </div>
                         </div>
                     </div>
+
+                    {dbError && (
+                        <div className="mx-8 mt-8 p-4 bg-red-500/10 border border-red-500/20 text-red-200 rounded-lg flex items-center gap-3">
+                            <AlertTriangle className="w-5 h-5 text-red-500" />
+                            <div>
+                                <p className="font-bold">Database Connection Failed</p>
+                                <p className="text-xs opacity-70">Check DATABASE_URL configuration in Vercel.</p>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="p-8">
                         {/* Control Bar */}
