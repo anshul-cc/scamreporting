@@ -9,7 +9,7 @@
 
 ## Project Setup
 - [x] Initialize Next.js Project <!-- id: 5 -->
-- [ ] Set up GitHub Repository <!-- id: 6 -->
+- [x] Set up GitHub Repository <!-- id: 6 -->
 - [ ] Set up Vercel Deployment & CI/CD <!-- id: 7 -->
 - [ ] Set up Database (PostgreSQL/Supabase) <!-- id: 8 -->
 
