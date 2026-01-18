@@ -10,29 +10,34 @@
 ## Project Setup
 - [x] Initialize Next.js Project <!-- id: 5 -->
 - [x] Set up GitHub Repository <!-- id: 6 -->
-- [ ] Set up Vercel Deployment & CI/CD <!-- id: 7 -->
-- [ ] Set up Database (PostgreSQL/Supabase) <!-- id: 8 -->
+- [x] Set up Vercel Deployment & CI/CD <!-- id: 7 -->
+- [x] Set up Database (PostgreSQL/Supabase) <!-- id: 8 -->
 
 ## Implementation
 ### Core Infrastructure
 - [x] Configure Design System (Colors, Fonts, Base CSS) <!-- id: 9 -->
-- [ ] Set up Database Client (Prisma or raw SQL) <!-- id: 10 -->
-- [ ] Implement Authentication (NextAuth or Supabase Auth) <!-- id: 11 -->
+- [x] Set up Database Client (Prisma or raw SQL) <!-- id: 10 -->
+- [x] Implement Authentication (Admin Password Env) <!-- id: 11 -->
 
 ### Backend / API
-- [ ] Create API for Seeding/Scraping Data <!-- id: 12 -->
-    - [ ] Implement GitHub Blocklist Scraper <!-- id: 13 -->
-    - [ ] Implement Third-party API Querying <!-- id: 14 -->
-- [ ] Create API for Report Submission <!-- id: 15 -->
-- [ ] Create API for Fetching Aggregated Data <!-- id: 16 -->
+- [x] Create API for Seeding/Scraping Data <!-- id: 12 -->
+    - [x] Implement GitHub Blocklist Scraper <!-- id: 13 -->
+    - [x] Implement Third-party API Querying <!-- id: 14 -->
+- [x] Create API for Report Submission (Server Actions) <!-- id: 15 -->
+- [x] Create API for Fetching Aggregated Data (Prisma/DB) <!-- id: 16 -->
+
+### Admin Portal
+- [x] Implement Admin Authentication (Login/Logout) <!-- id: 24 -->
+- [x] Build Admin Dashboard (View All Data) <!-- id: 25 -->
 
 ### Frontend
-- [x] Build Landing / Home Page (Dashboard) <!-- id: 17 -->
-- [ ] Build Login / Auth Pages <!-- id: 18 -->
-- [ ] Build Report Submission Form <!-- id: 19 -->
+- [x] Build Landing / Home Page (Cyberpunk Theme) <!-- id: 17 -->
+- [x] Build Login / Auth Pages (Glassmorphism) <!-- id: 18 -->
+- [x] Build Report Submission Form (Cyberpunk Theme) <!-- id: 19 -->
 - [ ] Build Address Look-up / details view <!-- id: 20 -->
 
 ## Verification
-- [ ] Verify Deployment on Vercel <!-- id: 21 -->
-- [ ] Test Report Submission Flow <!-- id: 22 -->
-- [ ] Test Data Aggregation <!-- id: 23 -->
+- [x] Verify Deployment on Vercel <!-- id: 21 -->
+- [x] Test Report Submission Flow <!-- id: 22 -->
+- [x] Test Data Aggregation <!-- id: 23 -->
+- [x] Verify Cyberpunk Visual Theme (Tailwind config fix)

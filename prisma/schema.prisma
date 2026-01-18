@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(uuid())
+  email           String   @unique
+  username        String?
+  createdAt       DateTime @default(now())
+  reputationScore Int      @default(0)
+  reports         Report[]
+
+  @@map("users")
+}
+
+model Address {
+  id           String   @id @default(uuid())
+  address      String   @unique
+  chain        String   @default("ETH")
+  riskScore    Int      @default(0)
+  tags         String[]
+  firstSeen    DateTime @default(now())
+  lastReported DateTime @updatedAt
+  reports      Report[]
+
+  @@index([address])
+  @@map("addresses")
+}
+
+model Report {
+  id          String   @id @default(uuid())
+  description String
+  evidenceUrl String?
+  source      String // 'USER_SUBMISSION', 'GITHUB_SCRAPE', 'API_IMPORT'
+  createdAt   DateTime @default(now())
+
+  // Relations
+  addressId  String
+  address    Address @relation(fields: [addressId], references: [id])
+  reporterId String?
+  reporter   User?   @relation(fields: [reporterId], references: [id])
+
+  @@map("reports")
+}
+
+model BlocklistSource {
+  id            String   @id @default(uuid())
+  name          String
+  url           String
+  lastScrapedAt DateTime @default(now())
+
+  @@map("blocklist_sources")
+}

@@ -32,7 +32,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} font-sans antialiased`}>
+      <body
+        className={`${inter.className} font-sans antialiased bg-[#050511] text-slate-200 selection:bg-cyan-500/30`}
+        style={{ backgroundColor: '#050511' }} // Failsafe for CSS loading lag
+      >
         {children}
       </body>
     </html>

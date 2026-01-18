@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Slate & Royal Blue Palette - Soothing & Confident */
   --color-canvas: #0F172A;
