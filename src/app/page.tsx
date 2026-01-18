@@ -7,19 +7,28 @@ import Link from "next/link";
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const recentReports = await prisma.report.findMany({
-    take: 6,
-    orderBy: { createdAt: 'desc' },
-    include: {
-      address: {
-        select: {
-          address: true,
-          tags: true,
-          riskScore: true,
+  let recentReports = [];
+  let dbError = false;
+
+  try {
+    recentReports = await prisma.report.findMany({
+      take: 6,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        address: {
+          select: {
+            address: true,
+            tags: true,
+            riskScore: true,
+          }
         }
       }
-    }
-  });
+    });
+  } catch (e) {
+    console.error("Database connection failed:", e);
+    dbError = true;
+    // Fallback to empty notes or mock data if needed, or just show empty state
+  }
 
   return (
     <main className="min-h-screen bg-[#050511] text-slate-200 font-sans flex flex-col items-center relative overflow-hidden selection:bg-cyan-500/30">
@@ -107,7 +116,13 @@ export default async function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {recentReports.length === 0 ? (
+          {dbError ? (
+            <div className="col-span-full text-center py-20 bg-red-500/10 rounded-2xl border border-red-500/20 border-dashed">
+              <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+              <p className="text-white font-bold">System Maintenance</p>
+              <p className="text-slate-500 text-sm mt-2">Unable to connect to intelligence database. Please check configuration.</p>
+            </div>
+          ) : recentReports.length === 0 ? (
             <div className="col-span-full text-center py-20 bg-white/[0.02] rounded-2xl border border-white/5 border-dashed">
               <p className="text-slate-500">No reports yet.</p>
             </div>
